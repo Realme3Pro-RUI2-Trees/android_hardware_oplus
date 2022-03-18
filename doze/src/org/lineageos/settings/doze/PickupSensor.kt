@@ -26,6 +26,8 @@ class PickupSensor(private val context: Context, sensorType: String) : SensorEve
     private val executorService = Executors.newSingleThreadExecutor()
     private var entryTimestamp = 0L
 
+    private val pickupEvent = context.getResources().getFloat(R.dimen.pickup_event_trigger);
+                
     override fun onSensorChanged(event: SensorEvent) {
         if (DEBUG) Log.d(TAG, "Got sensor event: ${event.values[0]}")
         val delta = SystemClock.elapsedRealtime() - entryTimestamp
@@ -33,7 +35,7 @@ class PickupSensor(private val context: Context, sensorType: String) : SensorEve
             return
         }
         entryTimestamp = SystemClock.elapsedRealtime()
-        if (event.values[0] == 1.0f) {
+        if (event.values[0] == pickupEvent) {
             if (Utils.isPickUpSetToWake(context)) {
                 wakeLock.acquire(WAKELOCK_TIMEOUT_MS)
                 powerManager.wakeUpWithProximityCheck(

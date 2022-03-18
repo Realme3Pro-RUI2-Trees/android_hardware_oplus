@@ -18,4 +18,6 @@
     <!-- Sensor types -->
     <string name="pickup_sensor_type"></string>
     <string name="pocket_sensor_type"></string>
+    
+    <dimen name="pickup_event_trigger"></dimen>
 </resources>
