@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#define LOG_TAG "android.hardware.biometrics.fingerprint@2.1-service.oplus.compat"
-#define LOG_VERBOSE "android.hardware.biometrics.fingerprint@2.1-service.oplus.compat"
+#define LOG_TAG "android.hardware.biometrics.fingerprint@2.3-service.oplus"
+#define LOG_VERBOSE "android.hardware.biometrics.fingerprint@2.3-service.oplus"
 
 #include <hardware/hardware.h>
 #include <hardware/fingerprint.h>
@@ -29,7 +29,7 @@ namespace android {
 namespace hardware {
 namespace biometrics {
 namespace fingerprint {
-namespace V2_1 {
+namespace V2_3 {
 namespace implementation {
 
 BiometricsFingerprint::BiometricsFingerprint() {
@@ -259,8 +259,22 @@ Return<RequestStatus> BiometricsFingerprint::authenticate(uint64_t operationId, 
     return OplusToAOSPRequestStatus(mOplusBiometricsFingerprint->authenticate(operationId, gid));
 }
 
-} // namespace implementation
-}  // namespace V2_1
+Return<bool> BiometricsFingerprint::isUdfps(uint32_t) {
+    return true;
+}
+
+Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, float) {
+    //moved to onTouchDown as it gets called before
+    return Void();
+}
+
+Return<void> BiometricsFingerprint::onFingerUp() {
+    //moved to onTouchUp
+    return Void();
+}
+
+}  // namespace implementation
+}  // namespace V2_3
 }  // namespace fingerprint
 }  // namespace biometrics
 }  // namespace hardware
