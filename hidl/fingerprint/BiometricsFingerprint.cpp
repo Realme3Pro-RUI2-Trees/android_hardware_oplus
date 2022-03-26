@@ -35,10 +35,11 @@ namespace implementation {
 BiometricsFingerprint::BiometricsFingerprint() {
     for(int i=0; i<10; i++) {
         mOplusBiometricsFingerprint = vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint::tryGetService();
-        if(mOplusBiometricsFingerprint != nullptr) break;
+        mOplusBiometricsFingerprintClientCallbackEx = vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallbackEx::tryGetService();
+        if(mOplusBiometricsFingerprintClientCallbackEx != nullptr) break;
         sleep(10);
     }
-    if(mOplusBiometricsFingerprint == nullptr) exit(0);
+    if(mOplusBiometricsFingerprintClientCallbackEx == nullptr) exit(0);
 }
 
 static bool receivedCancel;
@@ -114,10 +115,8 @@ public:
 
         return Void();
     }
-    Return<void> onFingerprintCmd(int32_t deviceId, const hidl_vec<uint32_t>& groupId, uint32_t remaining) { return Void(); }
     Return<void> onImageInfoAcquired(uint32_t type, uint32_t quality, uint32_t match_score) { return Void(); }
     Return<void> onMonitorEventTriggered(uint32_t type, const hidl_string& data) { return Void(); }
-    Return<void> onEngineeringInfoUpdated(uint32_t length, const hidl_vec<uint32_t>& keys, const hidl_vec<hidl_string>& values) { return Void(); }
     Return<void> onUIReady(int64_t deviceId) { return Void(); }
 
 private:
@@ -153,6 +152,16 @@ private:
     }
 };
 
+class OplusClientCallbackEx : public vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallbackEx {
+public:
+    sp<android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback> mClientCallback;
+
+    OplusClientCallbackEx(sp<android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback> clientCallback) : mClientCallback(clientCallback) {}
+    Return<void> onFingerprintCmd(int32_t deviceId, const hidl_vec<uint32_t>& groupId, uint32_t remaining) { return Void(); }    
+    Return<void> onEngineeringInfoUpdated(uint32_t length, const hidl_vec<uint32_t>& keys, const hidl_vec<hidl_string>& values) { return Void(); }
+    
+};
+    
 Return<uint64_t> BiometricsFingerprint::setNotify(
         const sp<IBiometricsFingerprintClientCallback>& clientCallback) {
     ALOGE("setNotify");
@@ -264,12 +273,12 @@ Return<bool> BiometricsFingerprint::isUdfps(uint32_t) {
 }
 
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, float) {
-    //moved to onTouchDown as it gets called before
+    ALOGE("onFingerDown");
     return Void();
 }
 
 Return<void> BiometricsFingerprint::onFingerUp() {
-    //moved to onTouchUp
+    ALOGE("onFingerUp");
     return Void();
 }
 

@@ -7,6 +7,7 @@ hidl_interface {
         "types.hal",
         "IBiometricsFingerprint.hal",
         "IBiometricsFingerprintClientCallback.hal",
+        "IBiometricsFingerprintClientCallbackEx.hal",
     ],
     interfaces: [
         "android.hidl.base@1.0",

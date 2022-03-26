@@ -34,6 +34,8 @@ interface IBiometricsFingerprint {
 
   enumerate() generates (RequestStatus debugErrno);
 
+  isUdfps() generates (RequestStatus debugErrno);
+  
   remove(uint32_t gid, uint32_t fid) generates (RequestStatus debugErrno);
 
   setActiveGroup(uint32_t gid, string storePath) generates (RequestStatus debugErrno);
@@ -56,4 +58,7 @@ interface IBiometricsFingerprint {
   touchDown() generates (RequestStatus debugErrno);
   touchUp() generates (RequestStatus debugErrno);
   sendFingerprintCmd(int32_t cmd, vec<int8_t> CmdId) generates (RequestStatus debugErrno);
+  
+  onFingerUp() generates (RequestStatus debugErrno);
+  onFingerDown() generates (RequestStatus debugErrno);
 };

@@ -25,6 +25,7 @@
 #include <android/hardware/biometrics/fingerprint/2.3/IBiometricsFingerprint.h>
 #include <android/hardware/biometrics/fingerprint/2.1/types.h>
 #include <vendor/oplus/hardware/biometrics/fingerprint/2.1/IBiometricsFingerprint.h>
+#include <vendor/oplus/hardware/biometrics/fingerprint/2.1/IBiometricsFingerprintClientCallbackEx.h>
 
 namespace android {
 namespace hardware {
@@ -45,6 +46,7 @@ using ::android::sp;
 using ::android::status_t;
 
 class OplusClientCallback;
+class OplusClientCallbackEx;
 struct BiometricsFingerprint : public IBiometricsFingerprint {
 public:
     BiometricsFingerprint();
@@ -66,7 +68,9 @@ public:
 
 private:
     sp<vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint> mOplusBiometricsFingerprint;
+    sp<vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallbackEx> mOplusBiometricsFingerprintClientCallbackEx;
     sp<OplusClientCallback> mOplusClientCallback;
+    sp<OplusClientCallbackEx> mOplusClientCallbackEx;
     static Return<RequestStatus> OplusToAOSPRequestStatus(vendor::oplus::hardware::biometrics::fingerprint::V2_1::RequestStatus req);
 };
 
