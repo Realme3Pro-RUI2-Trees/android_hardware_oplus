@@ -1,5 +1,5 @@
 android_app {
-    name: "OnePlusDoze",
+    name: "OplusDoze",
     defaults: ["SettingsLibDefaults"],
 
     srcs: ["src/**/*.kt"],

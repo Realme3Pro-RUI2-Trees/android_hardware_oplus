@@ -27,7 +27,10 @@ class PickupSensor(private val context: Context, sensorType: String) : SensorEve
     private var entryTimestamp = 0L
 
     private val pickupEvent = context.getResources().getFloat(R.dimen.pickup_event_trigger);
-                
+    
+    //if (getFloat(R.dimen.pickup_event_trigger).isEmpty()) {
+    //    pickupEvent == 1.0f }
+
     override fun onSensorChanged(event: SensorEvent) {
         if (DEBUG) Log.d(TAG, "Got sensor event: ${event.values[0]}")
         val delta = SystemClock.elapsedRealtime() - entryTimestamp
