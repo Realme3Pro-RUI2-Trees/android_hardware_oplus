@@ -153,11 +153,18 @@ private:
     }
 };
 
+class OplusClientCallbackEx : public vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallbackEx {
+public:
+    sp<android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback> mClientCallback;
+    
+    OplusClientCallbackEx(sp<android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprintClientCallback> clientCallback) : mClientCallback(clientCallback) {}
+};
+    
 Return<uint64_t> BiometricsFingerprint::setNotify(
         const sp<IBiometricsFingerprintClientCallback>& clientCallback) {
-    ALOGE("setNotify");
-    mOplusClientCallback = new OplusClientCallback(clientCallback);
-    return mOplusBiometricsFingerprint->setNotify(mOplusClientCallback);
+    ALOGE("setHalCallback");
+    //mOplusClientCallbackEx = new OplusClientCallbackEx(clientCallback);
+    return mOplusBiometricsFingerprint->setHalCallback(mOplusClientCallbackEx);
 }
 
 Return<RequestStatus> BiometricsFingerprint::OplusToAOSPRequestStatus(vendor::oplus::hardware::biometrics::fingerprint::V2_1::RequestStatus req) {

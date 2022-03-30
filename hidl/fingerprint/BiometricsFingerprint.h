@@ -45,6 +45,7 @@ using ::android::sp;
 using ::android::status_t;
 
 class OplusClientCallback;
+class OplusClientCallbackEx;
 struct BiometricsFingerprint : public IBiometricsFingerprint {
 public:
     BiometricsFingerprint();
@@ -67,6 +68,7 @@ public:
 private:
     sp<vendor::oplus::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint> mOplusBiometricsFingerprint;
     sp<OplusClientCallback> mOplusClientCallback;
+    sp<OplusClientCallbackEx> mOplusClientCallbackEx;
     static Return<RequestStatus> OplusToAOSPRequestStatus(vendor::oplus::hardware::biometrics::fingerprint::V2_1::RequestStatus req);
 };
 
