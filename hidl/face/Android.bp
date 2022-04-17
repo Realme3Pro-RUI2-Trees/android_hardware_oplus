@@ -1,0 +1,21 @@
+cc_binary {
+    name: "android.hardware.biometrics.face@1.0-service.oplus",
+    defaults: ["hidl_defaults"],
+    vendor: true,
+    init_rc: ["android.hardware.biometrics.face@1.0-service.oplus.rc"],
+    vintf_fragments: ["manifest_oplus_face.xml"],
+    relative_install_path: "hw",
+    proprietary: true,
+    srcs: [
+        "BiometricsFace.cpp",
+        "BiometricsFaceClientCallbackEx.cpp",        
+        "service.cpp",
+    ],
+    shared_libs: [
+        "libhidlbase",
+        "libutils",
+        "liblog",
+        "android.hardware.biometrics.face@1.0",
+        "vendor.oplus.hardware.biometrics.face@1.1",
+    ],
+}
